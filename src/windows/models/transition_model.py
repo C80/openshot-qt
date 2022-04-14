@@ -148,8 +148,15 @@ class TransitionsModel(QObject):
 
                 # replace suffix number with placeholder (if any)
                 if suffix_number:
-                    trans_name = trans_name.replace(suffix_number, "%s")
-                    trans_name = self.app._tr(trans_name) % suffix_number
+                    
+                    try:
+                        trans_name = trans_name.replace(suffix_number, "%s")
+                        trans_name = self.app._tr(trans_name) % suffix_number
+
+                    except Exception:
+                        # Rare exception
+                        log.debug('Error at Trans. %s / suffix %s', trans_name, suffix_number)
+
                 else:
                     trans_name = self.app._tr(trans_name)
 
